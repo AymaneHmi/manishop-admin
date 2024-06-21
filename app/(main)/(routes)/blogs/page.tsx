@@ -3,13 +3,13 @@
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import Blogs from "./Blogs";
-import { getBlogs } from "@/actions/getBlogs";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
+import { useData } from "@/providers/data";
 
 const blogsPage = () => {
     const {onOpen} = useModal();
-    const blogs = getBlogs();
+    const {blogs} = useData();
 
     const handleCreateCategory = () => {
         onOpen('createBlog');
@@ -23,11 +23,11 @@ const blogsPage = () => {
                     subtitle="Manage your website blogs."
                 />
                 <Button className="w-fit" onClick={handleCreateCategory}>
-                    Create a blog
+                    Add a blog
                 </Button>
             </div>
             <Separator />
-            <Blogs blogs={blogs} />
+            <Blogs />
         </section>
     )
 }

@@ -25,7 +25,7 @@ const Avatar: React.FC<AvatarProps> = ({
             <div className="absolute top-0 right-0 text-white bg-br_primary p-2 rounded-full cursor-pointer hover:scale-105 transition duration-150">
                 <Edit2 onClick={() => onOpen('editProfile', {imageSrc})} size={20} />
             </div>}
-            <div className={cn("bg-white flex items-center justify-center rounded-full overflow-hidden text-br_primary", size ? `w-${size} h-${size}` : "w-10 h-10")}>
+            <div className={cn("bg-br_primary flex items-center justify-center rounded-full overflow-hidden text-white", size ? `w-${size} h-${size}` : "w-10 h-10")}>
                 {imageSrc ? 
                 <Image
                     src={src + imageSrc}

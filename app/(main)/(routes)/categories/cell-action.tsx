@@ -15,6 +15,8 @@ import {
 
 import useModal from "@/hooks/use-modal";
 
+const endPoint = process.env.NEXT_PUBLIC_API + '/categories/category'
+
 interface CellActionProps {
     data: category;
 }
@@ -35,9 +37,9 @@ const CellAction: React.FC<CellActionProps> = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => console.log(data.id)} className="space-x-2"><Eye size={15} /> <span>View</span></DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onOpen("viewCategory")} className="space-x-2"><Eye size={15} /> <span>View</span></DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onOpen("editCategory", {category: data})} className="space-x-2"><PenSquare size={15} /> <span>Update</span></DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onOpen("alertModal", {itemId: data.id, endPoint: '/category/category.php'})} className="space-x-2"><Trash size={15} /> <span>Delete</span></DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onOpen("alertModal", {itemId: data.id, endPoint})} className="space-x-2"><Trash size={15} /> <span>Delete</span></DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

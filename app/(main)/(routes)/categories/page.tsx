@@ -1,16 +1,15 @@
 'use client';
 
-// import EmptyState from "@/components/EmptyState";
 import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import Categories from "./Categories";
-import { getCategories } from "@/actions/getCategories";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
+import { useData } from "@/providers/data";
 
 const categoriesPage = () => {
     const {onOpen} = useModal();
-    const categories = getCategories();
+    const {categories} = useData();
 
     const handleCreateCategory = () => {
         onOpen("createCategory");
@@ -23,11 +22,11 @@ const categoriesPage = () => {
                     subtitle="Manage your products categories."
                 />
                 <Button className="w-fit" onClick={handleCreateCategory}>
-                    Create a category
+                    Add a category
                 </Button>
             </div>
             <Separator />
-            <Categories categories={categories} />
+            <Categories />
         </section>
     )
 }

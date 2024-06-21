@@ -19,7 +19,7 @@ const Heading: React.FC<HeadingProps> = ({
         <div className={`flex flex-col 
         ${center ? 'items-center' : 'items-left'}`}>
             <h1 className={`font-bold ${small ? 'text-xl' : 'text-3xl'}`}>{title}</h1>
-            <h2 className="font-light">{subtitle}</h2>
+            <h2 className="font-light text-xs">{subtitle}</h2>
         </div>
     )
 }

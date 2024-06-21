@@ -3,10 +3,10 @@
 import Heading from "@/components/Heading";
 import Orders from "./Orders";
 import { Separator } from "@/components/ui/separator";
-import { getOrders } from "@/actions/getOrders";
+import { useData } from "@/providers/data";
 
 const ordersPage = () => {
-    const orders = getOrders();
+    const {orders} = useData();
 
     return (
         <section className="flex flex-col gap-4">
@@ -15,7 +15,7 @@ const ordersPage = () => {
                 subtitle="See your clients orders."
             />
             <Separator />
-            <Orders orders={orders} />
+            <Orders />
         </section>
     )
 }

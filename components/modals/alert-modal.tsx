@@ -1,33 +1,36 @@
 import useModal from "@/hooks/use-modal";
 import Modal from "../Modal";
 import Heading from "../Heading";
-import { useRequest } from "@/hooks/use-request";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Loader from "../ui/loader";
+import axios from "axios";
+import { toast } from "../ui/use-toast";
 
 const AlertModal = () => {
     const {isOpen, onClose, type, data} = useModal();
-    const router = useRouter();
 
     const isOpenModal = isOpen && type === "alertModal";
     const [isLoading, setIsLoading] = useState(false)
 
     const deleteItem = async (e: number | undefined) => {
         setIsLoading(true)
-        const query = {
-            id: e
-        }
-        const responseData = await useRequest.delete(query, data.endPoint ? data.endPoint : '');
-        setIsLoading(false)
-        if(responseData.error) {
-            toast.error(responseData.error);
-            return;
-        }
-        toast.success('item deleted successfuly.');
-        onClose();
-        router.refresh();
+        axios.delete(data.endPoint + '?id=' + e)
+        .then(res => {
+            data?.reload;
+            toast({
+                title: "Item deleted seccussfuly",
+            })
+        })
+        .catch(err => {
+            toast({
+                variant: "destructive",
+                title: "Uh No! Something went wrong.",
+                description: "check your connection and try again."
+            })
+        })
+        .finally(() => {
+            setIsLoading(false)
+        })
     } 
 
     const body = (

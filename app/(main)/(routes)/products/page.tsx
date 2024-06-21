@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import Products from "./Products";
 import { Separator } from "@/components/ui/separator";
-import { getProducts } from "@/actions/getProducts";
 import useModal from "@/hooks/use-modal";
+import { useData } from "@/providers/data";
 
 const productsPage = () => {
     const {onOpen} = useModal();
-    const products = getProducts();
+    const {products} = useData();
 
     const handleCreateProduct = () => {
         onOpen("createProduct");
@@ -22,13 +22,11 @@ const productsPage = () => {
                     subtitle="Manage your store products."
                 />
                 <Button className="w-fit" onClick={handleCreateProduct}>
-                    Create a product
+                    Add a product
                 </Button>
             </div>
             <Separator />
-            <Products
-                products={products}
-            />
+            <Products />
         </section>
     )
 }

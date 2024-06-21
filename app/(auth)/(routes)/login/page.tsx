@@ -3,30 +3,36 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import  useCookie  from "@/hooks/use-cookies";
-import { useRequest } from "@/hooks/use-request";
-import { useForm } from "@/hooks/use-form";
-
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import Image from "next/image";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useUser } from "@/hooks/use-user";
+import { emailPattern, passwordPattern } from "@/hooks/patterns";
+import InputError from "@/components/ui/input-error";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
-const initialState = {
-    email: '',
-    password: ''
+const endPoint = process.env.NEXT_PUBLIC_API + '/user/admin/login'
+
+interface InputsProps {
+    email: string;
+    password: string;
 }
 export default function LoginPage () {
-    const { formData: loginData, handleChange: handleChange, resetForm: resetInsertForm } = useForm(
-        initialState
-    );
+    const {
+        handleSubmit,
+        register,
+        formState: {errors}
+    } = useForm<InputsProps>();
 
     const route = useRouter();
+
+    const {user} = useUser();
 
     const [mounted, setIsMounted] = useState(true)
 
     const [isLoading , setIsLoading] = useState(false)
-    const [loginError , setLoginError] = useState<String | null>(null);
+    const [loginError , setLoginError] = useState<string | null>(null);
 
     useEffect(() => {
         setIsMounted(false)
@@ -36,38 +42,24 @@ export default function LoginPage () {
         return null;
     }
 
-    // const token = useCookie('ms_admin_user_token');
     const token = sessionStorage.getItem('ms_admin_user_token');
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if(isLoading) return;
-        if(!loginData.email || !loginData.password) {
-            setLoginError('Fields are required!')
-            return;
-        }
+    const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         setIsLoading(true)
-        const data: any = {
-            email: loginData.email,
-            password: loginData.password
-        }
-        const responseData = await useRequest.post(data,'/login/admin_login.php');
-        setIsLoading(false);
-        if(responseData.error) {
-            setLoginError(responseData.error)
-            return;
-        }
-        if(!responseData.user_token){
-            return;
-        }
-        // document.cookie = `ms_admin_user_token=${responseData.user_token}; expires=${new Date(Date.now() + 10 * 60 * 1000).toUTCString()}; path=/`;
-        sessionStorage.setItem('ms_admin_user_token', responseData.user_token);
-        toast.success('Login successfuly.')
-        resetInsertForm(initialState)
-        route.push('/');
+        axios.post(endPoint, data)
+        .then(res => {
+            sessionStorage.setItem('ms_admin_user_token', res?.data?.user_token);
+            route.push('/')
+        })
+        .catch(err => {
+            setLoginError(err.response.data.error)
+        })
+        .finally(() => {
+            setIsLoading(false)
+        })
     }
 
-    if(token) {
+    if(user) {
         return route.push('/');
     }
 
@@ -82,22 +74,21 @@ export default function LoginPage () {
                 />
                 <h1 className="font-bold text-xl md:text-3xl text-center">Welcome back</h1>
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
                 <Label htmlFor="email">Your email address</Label>
                 <Input 
                     type="email" 
                     placeholder="Email" 
-                    required
-                    onChange={(e) => handleChange('email', e.target.value)} 
+                    {...register("email", {required: true, pattern: emailPattern})}
                 />
+                <InputError isShow={!!errors.email} />
                 <Label htmlFor="email">Your password</Label>
                 <Input 
                     type="password" 
                     placeholder="Password" 
-                    required
-                    onChange={(e) => handleChange('password', e.target.value)} 
+                    {...register("password", {required: true, pattern: passwordPattern, min: 8})}
                 />
-                {loginError && <p className="text-red-500 text-sm">email or password in incorrect</p>}
+                <InputError isShow={!!errors.password || !!loginError} message={loginError} />
                 <Button 
                     type="submit" 
                     disabled={isLoading}

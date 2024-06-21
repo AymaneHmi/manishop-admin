@@ -2,11 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { category } from "@/lib/types";
-
-import Image from "next/image";
 import CellAction from "./cell-action";
-
-const imageUrl = process.env.NEXT_PUBLIC_CATEGORIES_IMG_URL;
+import MediaReader from "@/components/media-reader";
 
 export const columns: ColumnDef<category>[] = [
     {
@@ -14,12 +11,11 @@ export const columns: ColumnDef<category>[] = [
       cell: ({row}) => {
           const category = row.original;
           return (
-              <Image 
-                src={(imageUrl || "") + category.image}
-                alt={category.name}
-                width={100}
-                height={100}
+            <div className="aspect-square w-20 overflow-hidden relative">
+              <MediaReader
+                media={category.image}
               />
+            </div>
           )
         }
     },

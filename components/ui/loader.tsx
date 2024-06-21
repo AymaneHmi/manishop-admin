@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 
 interface LoaderProps {
     isLoading: boolean;
-    size: number;
+    size?: number;
 }
 
 const Loader = ({isLoading, size}: LoaderProps) => {
@@ -14,7 +14,7 @@ const Loader = ({isLoading, size}: LoaderProps) => {
     return (
         <Loader2
             className="animate-spin text-xurrent"
-            size={size}
+            size={size ? size : 18}
         />
     )
 }

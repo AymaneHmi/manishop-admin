@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import Subcategories from "./Subcategories";
 import { Separator } from "@/components/ui/separator";
-import { getSubcategories } from "@/actions/getSubcategories";
 import useModal from "@/hooks/use-modal";
+import { useData } from "@/providers/data";
 
 const subcategoriesPage = () => {
     const {onOpen} = useModal()
-    const subcategories = getSubcategories();
+    const {subcategories} = useData();
 
     const handleCreateSubcategory = () => {
         onOpen("createSubcategory")
@@ -22,11 +22,11 @@ const subcategoriesPage = () => {
                     subtitle="Manage your products subcategories."
                 />
                 <Button className="w-fit" onClick={handleCreateSubcategory}>
-                    Create a subcategory
+                    Add a subcategory
                 </Button>
             </div>
             <Separator />
-            <Subcategories subcategories={subcategories} />
+            <Subcategories />
         </section>
     )
 }

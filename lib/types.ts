@@ -1,4 +1,15 @@
 
+export type user = {
+    id: number;
+    username: string;
+    fullName: string;
+    email: string;
+    imageSrc: string;
+    number: string;
+    address: string;
+    city: string;
+}
+
 export type category = {
     id: number;
     name: string;
@@ -12,35 +23,74 @@ export type subcategory = {
     name: string;
     category_id: number;
     category: string;
-    sizes: string[];
+    createdAt: Date;
+}
+
+export type size = {
+    id: number;
+    name: string;
+    value: string;
+    createdAt: Date;
+}
+
+export type color = {
+    id: number;
+    name: string;
+    value: string;
     createdAt: Date;
 }
 
 export type product = {
     id: number;
-    category: string;
-    category_id: number;
-    subcategory: string;
-    subcategory_id: number;
+    category: category;
+    subcategory: subcategory;
     title: string;
     description: string;
+    tags: string[];
     slug: string;
     price: number;
-    images: string[];
-    sizes: string[];
+    media: string[];
+    sizes: size[];
+    colors: color[];
     available: boolean;
+    createdAt: Date;
+}
+
+export type discount = {
+    id: number;
+    name: string;
+    discountAmount: number;
+    productsIds: number[];
+    startDate: Date;
+    endDate: Date;
+    createdAt: Date
+}
+
+export type promocode = {
+    id: number;
+    promocode: string;
+    discountAmount: number;
+    startDate: Date;
+    endDate: Date;
+    createdAt: Date
+}
+
+export type status = {
+    id: number;
+    name: string;
+    value: string;
     createdAt: Date;
 }
 
 export type order = {
     id: number;
     orderId: string;
-    products: string;
-    name: string;
-    phone: string;
-    address: string;
-    price: number;
-    status: string;
+    orderProducts: string;
+    customerName: string;
+    customerNumber: string;
+    customerAddress: string;
+    totalPrice: number;
+    status: status;
     isPaid: boolean;
     createdAt: Date;
 }
@@ -60,4 +110,5 @@ export type storeInfo = {
     totalRevenue: number;
     sales: number;
     products: number;
+    graphData: any[];
 }

@@ -1,22 +1,16 @@
-import { useRequest } from "@/hooks/use-request";
 import { storeInfo } from "@/lib/types";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useQuery } from "react-query";
+
+const endPoint = process.env.NEXT_PUBLIC_API + '/store'
 
 export function getStoreInfo () {
-    const [info, setInfo] = useState<storeInfo>({
-        totalRevenue: 0,
-        sales: 0,
-        products: 0,
-    })
+    const fetchStoreStatistics = async () => {
+        const res = await axios.get(endPoint)
+        return res.data
+    }
 
-    useEffect(() => {
-        const fetchInfo = async () => {
-            const responseData = await useRequest.post({}, '/store/info.php');
-            if(responseData.error) return;
-            setInfo(responseData)
-        }
-        fetchInfo();
-    },[])
+    const {data, isLoading, error} = useQuery<storeInfo>("storeStatistics", () => fetchStoreStatistics())
 
-    return info;
+    return {data, isLoading, error};
 }

@@ -1,6 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { PT_Sans } from 'next/font/google'
+import ChildrenLayout from './children';
+import { ToastProvider } from '@/components/ui/toast';
 
 const inter = PT_Sans({
   weight: "400",
@@ -21,7 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/MS.svg" sizes="any" />
       <body className={inter.className}>
+        <ChildrenLayout>
           {children}
+        </ChildrenLayout>
+        <ToastProvider />
       </body>
     </html>
   )
