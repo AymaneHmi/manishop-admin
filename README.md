@@ -95,28 +95,7 @@ Built With
 *   [MySQL](https://www.mysql.com/) - Relational database management system
     
 *   [ChatGPT](https://www.anthropic.com/chatgpt) - AI language model used for generating blog posts
-    
 
-Contributing
-------------
-
-Contributions are welcome! Please follow these steps:
-
-1.  Fork the repository
-    
-2.  Create your feature branch (git checkout -b feature/your-feature)
-    
-3.  Commit your changes (git commit -am 'Add some feature')
-    
-4.  Push to the branch (git push origin feature/your-feature)
-    
-5.  Create a new Pull Request
-    
-
-License
--------
-
-This project is licensed under the [MIT License](https://www.perplexity.ai/LICENSE).
 
 Contact
 -------
