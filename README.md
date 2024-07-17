@@ -121,9 +121,9 @@ This project is licensed under the [MIT License](https://www.perplexity.ai/LICE
 Contact
 -------
 
-*   GitHub: [your-username](https://github.com/your-username)
+*   GitHub: [AymaneHmi](https://github.com/your-username)
     
-*   Email: [your-email](mailto:your-email@example.com)
+*   Email: [aymanehammi6@gmail.com](mailto:your-email@example.com)
     
 
 Acknowledgments
