@@ -48,23 +48,8 @@ git clone https://github.com/AymaneHmi/manishop-admin.git
 ```properties
 cd manishop-admin
 npm install
-```  
+```
 
-1.  Set up the database:
-    
-
-*   Create a new MySQL database
-    
-*   Import the database.sql file located in the backend directory
-    
-
-1.  Configure environment variables:
-    
-
-*   Create a .env file in the backend directory
-    
-*   Add your database connection details and other necessary configurations
-    
 
 1.  Start the development server:
     
@@ -100,9 +85,9 @@ Built With
 Contact
 -------
 
-*   GitHub: [AymaneHmi](https://github.com/your-username)
+*   GitHub: [AymaneHmi](https://github.com/AymaneHmi)
     
-*   Email: [aymanehammi6@gmail.com](mailto:your-email@example.com)
+*   Email: [aymanehammi6@gmail.com](mailto:aymanehammi6@gmail.com)
     
 
 Acknowledgments
