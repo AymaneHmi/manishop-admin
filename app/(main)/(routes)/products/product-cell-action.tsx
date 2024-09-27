@@ -36,7 +36,7 @@ const CellAction: React.FC<CellActionProps> = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => onOpen("viewProduct")} className="space-x-2"><Eye size={15} /> <span>View</span></DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onOpen("viewProduct", {product: data})} className="space-x-2"><Eye size={15} /> <span>View</span></DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onOpen("editProduct", {product: data})} className="space-x-2"><PenSquare size={15} /> <span>Update</span></DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onOpen("alertModal", {itemId: data.id, endPoint})} className="space-x-2"><Trash size={15} /> <span>Delete</span></DropdownMenuItem>
                 </DropdownMenuContent>

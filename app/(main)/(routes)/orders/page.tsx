@@ -3,10 +3,10 @@
 import Heading from "@/components/Heading";
 import Orders from "./Orders";
 import { Separator } from "@/components/ui/separator";
-import { useData } from "@/providers/data";
+import getOrders from "@/actions/get-orders";
 
-const ordersPage = () => {
-    const {orders} = useData();
+const OrdersPage = () => {
+    const {orders} = getOrders();
 
     return (
         <section className="flex flex-col gap-4">
@@ -20,4 +20,4 @@ const ordersPage = () => {
     )
 }
 
-export default ordersPage;
+export default OrdersPage;

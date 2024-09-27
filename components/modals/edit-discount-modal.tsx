@@ -3,10 +3,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import useModal from "@/hooks/use-modal";
 import Modal from "../Modal";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useData, useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 import InputError from "../ui/input-error";
@@ -25,9 +24,11 @@ import {
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useMinimize } from "@/hooks/use-minimize";
+import { getMinimizeText } from "@/hooks/use-minimize";
 import { product } from "@/lib/types";
 import { codePattern } from "@/hooks/patterns";
+import { useUpdateDiscounts } from "@/actions/get-discounts";
+import getProducts from "@/actions/get-products";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/discounts/discount';
 
@@ -41,14 +42,14 @@ interface InputsProps {
 }
 
 const EditDiscountModal = () => {
-    const {updateDiscounts} = useUpdateData();
-    const {products} = useData();
+    const {updateDiscounts} = useUpdateDiscounts();
+    const {products} = getProducts();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editDiscount"
 
     const [isSearchProductsClicked, setIsSearchProductsClicked] = useState(false)
-    const [discountProducts, setDiscountProducts] = useState<product[] | []>([])
+    const [discountProducts, setDiscountProducts] = useState<product[]>([])
 
     const yesterdayDate = () => {
         let t = new Date();
@@ -72,26 +73,48 @@ const EditDiscountModal = () => {
         setValue("startDate", data?.discount?.startDate!);
         setValue("endDate", data?.discount?.endDate!);
         setValue("productsIds", data?.discount?.productsIds!);
-    },[data?.discount])
+    },[data?.discount, setValue])
 
-    useEffect(() => {
+    // const discountProductsArray = useMemo(() => {
+    //     const productsIds = data?.discount?.productsIds || [];
+    //     return productsIds.reduce((acc, productId) => {
+    //       const existProduct = products?.find(product => product.id === productId);
+    //       if (existProduct) {
+    //         acc.push(existProduct);
+    //       }
+    //       return acc;
+    //     }, [] as product[]);
+    //   }, [data?.discount?.productsIds, products]);
+
+    // useEffect(() => {        
+    //     setDiscountProducts(discountProductsArray);
+    // }, [discountProductsArray]);
+
+    const discountProductsArray = useMemo(() => {
         const productsIds = data?.discount?.productsIds || [];
         const discountProducts: product[] = [];
+        
+        productsIds.forEach(productId => {
+          const existProduct = products.find(product => product.id === productId);
+          if (existProduct) {
+            discountProducts.push(existProduct);
+          }
+        });
+        
+        return discountProducts;
+    }, [data?.discount?.productsIds, products]);
 
-        productsIds?.forEach(productId => {
-            const existProduct = products?.find(product => product.id === productId);
-            if(existProduct) {
-                discountProducts.push(existProduct)
-            }
-        })
-
-        setDiscountProducts(discountProducts)
-    },[data?.discount?.productsIds])
+    useEffect(() => {
+    // Only update if the array has changed
+    if (JSON.stringify(discountProductsArray) !== JSON.stringify(discountProducts)) {
+        setDiscountProducts(discountProductsArray);
+    }
+    }, [discountProductsArray, discountProducts]);
 
     useEffect(() => {
         const productsIds = discountProducts?.map(product => product.id)
         setValue("productsIds", productsIds)
-    },[discountProducts])
+    },[discountProducts, setValue])
 
     const handleDiscountProduct = (product: product) => {
         setDiscountProducts(existProducts => {
@@ -150,7 +173,7 @@ const EditDiscountModal = () => {
                 disabled={products?.length === discountProducts.length}
                 type="button"
                 variant={"outline"}
-                onClick={() => setDiscountProducts(products)}
+                onClick={() => setDiscountProducts(products as product[])}
                 className="w-full md:w-1/3"
             >
                 Add All Products
@@ -170,7 +193,7 @@ const EditDiscountModal = () => {
                                         height={50}
                                         className="aspect-square object-cover rounded"
                                     />
-                                    <h2 className="font-medium">{useMinimize(product.title, 30)}</h2>
+                                    <h2 className="font-medium">{getMinimizeText(product.title, 30)}</h2>
                                 </div>
                             </CommandItem>
                         ))}
@@ -190,7 +213,7 @@ const EditDiscountModal = () => {
                             height={50}
                             className="aspect-square object-cover rounded"
                         />
-                        <h2 className="font-medium">{useMinimize(product.title, 30)}</h2>
+                        <h2 className="font-medium">{getMinimizeText(product.title, 30)}</h2>
                     </div>
                     <h3>{product.price}</h3>
                     <X size={20} className="cursor-pointer" onClick={() => setDiscountProducts(existProducts => existProducts?.filter(existProduct => (

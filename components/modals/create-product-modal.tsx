@@ -9,7 +9,6 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import UploadImage from "../upload-media";
-import { useData, useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 
@@ -22,6 +21,11 @@ import { Check } from "lucide-react";
 import { subcategory } from "@/lib/types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import InputError from "../ui/input-error";
+import { useUpdateProducts } from "@/actions/get-products";
+import getCategories from "@/actions/get-categories";
+import getSubcategories from "@/actions/get-subcategories";
+import getColors from "@/actions/get-colors";
+import getSizes from "@/actions/get-sizes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/products/product';
 
@@ -40,14 +44,19 @@ interface InputsProps {
 }
 
 const CreateProductModal = () => {
-    const {categories, subcategories, sizes, colors} = useData();
-    const {updateProducts} = useUpdateData();
+    const {updateProducts} = useUpdateProducts();
+    
+    const {categories} = getCategories();
+    const {subcategories} = getSubcategories();
+    const {colors} = getColors();
+    const {sizes} = getSizes();
+
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "createProduct"
     const [productDescription , setProductDescription] = useState('');
 
-    const [filteredSubcategories, setFilteredSubcategories] = useState<subcategory[] | []>([])
+    const [filteredSubcategories, setFilteredSubcategories] = useState<subcategory[]>([])
 
     const [selectedSizesIds, setSelectedSizesIds] = useState<number[] | []>([]);
     const [selectedColorsIds, setSelectedColorsIds] = useState<number[] | []>([]);
@@ -62,23 +71,26 @@ const CreateProductModal = () => {
     } = useForm<InputsProps>()
 
     useEffect(() => {
-        const filteredSubcategories = subcategories.filter(subcategory => {
-            return subcategory.category_id.toString() === watch("categoryId");
-        })
-        setFilteredSubcategories(filteredSubcategories)
-    },[watch("categoryId")])
+        const categoryId = watch("categoryId");
+        if (categoryId) {
+            const filtered = subcategories?.filter(subcategory => {
+                return subcategory.category_id.toString() === categoryId;
+            }) || [];
+            setFilteredSubcategories(filtered);
+        }
+    }, [watch, watch("categoryId"), subcategories]);
 
     useEffect(() => {
         setValue("description", productDescription)
-    },[productDescription])
+    },[productDescription, setValue])
 
     useEffect(() => {
         setValue("sizesIds", selectedSizesIds);
-    },[selectedSizesIds])
+    },[selectedSizesIds, setValue])
 
     useEffect(() => {
         setValue("colorsIds", selectedColorsIds);
-    },[selectedColorsIds])
+    },[selectedColorsIds, setValue])
 
     const handleToggleSize = (sizeId: number) => {
         const isSizeIdExist = selectedSizesIds.some(selectedSizeId => selectedSizeId == sizeId);
@@ -172,7 +184,7 @@ const CreateProductModal = () => {
             onChange={setProductDescription}
             // {...register('description', {required: !productDescription})}
         />
-        <Label htmlFor="tags">Tags (put camma "," between each tag)</Label>
+        <Label htmlFor="tags">Tags (put camma &quot;,&quot; between each tag)</Label>
         <Input 
             type="text" 
             placeholder="Tags" 
@@ -190,7 +202,7 @@ const CreateProductModal = () => {
                 <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-                {categories.map(category => (
+                {categories?.map(category => (
                     <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
                 ))}
             </SelectContent>

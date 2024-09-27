@@ -13,7 +13,7 @@ import {
 
 import { status } from "@/lib/types";
 import useModal from "@/hooks/use-modal";
-import { useUpdateData } from "@/providers/data";
+import { useUpdateStatuses } from "@/actions/get-statuses";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/statuses/status';
 
@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const {onOpen} = useModal();
-    const {updateStatuses} = useUpdateData();
+    const {updateStatuses} = useUpdateStatuses();
 
     return (
         <>

@@ -6,9 +6,9 @@ import Modal from "../Modal";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
+import { useUpdateStatuses } from "@/actions/get-statuses";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/statuses/status';
 
@@ -18,7 +18,7 @@ interface InputsProps {
 }
 
 const CreateStatusModal = () => {
-    const {updateStatuses} = useUpdateData();
+    const {updateStatuses} = useUpdateStatuses();
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "createStatus"

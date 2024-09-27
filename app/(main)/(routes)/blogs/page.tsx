@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import Blogs from "./Blogs";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
+import getBlogs from "@/actions/get-blogs";
 
-const blogsPage = () => {
+const BlogsPage = () => {
     const {onOpen} = useModal();
-    const {blogs} = useData();
+    const {blogs} = getBlogs();
 
     const handleCreateCategory = () => {
         onOpen('createBlog');
@@ -32,4 +32,4 @@ const blogsPage = () => {
     )
 }
 
-export default blogsPage;
+export default BlogsPage;

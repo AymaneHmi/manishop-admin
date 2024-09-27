@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
 import Sizes from "./Sizes";
+import getSizes from "@/actions/get-sizes";
 
-const sizesPage = () => {
+const SizesPage = () => {
     const {onOpen} = useModal()
-    const {sizes} = useData()!;
+    const {sizes} = getSizes();
 
     const handleCreateSize = () => {
         onOpen("createSize")
@@ -31,4 +31,4 @@ const sizesPage = () => {
     )
 }
 
-export default sizesPage;
+export default SizesPage;

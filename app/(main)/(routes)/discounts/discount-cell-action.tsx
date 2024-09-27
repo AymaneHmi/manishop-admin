@@ -13,7 +13,7 @@ import {
 
 import { discount } from "@/lib/types";
 import useModal from "@/hooks/use-modal";
-import { useUpdateData } from "@/providers/data";
+import { useUpdateDiscounts } from "@/actions/get-discounts";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/discounts/discount';
 
@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const {onOpen} = useModal();
-    const {updateDiscounts} = useUpdateData();
+    const {updateDiscounts} = useUpdateDiscounts();
 
     return (
         <>

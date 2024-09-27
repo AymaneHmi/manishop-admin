@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import UploadImage from "../upload-media";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 
 import dynamic from "next/dynamic";
@@ -19,6 +18,7 @@ import Loader from "../ui/loader";
 import InputError from "../ui/input-error";
 import { useUser } from "@/hooks/use-user";
 import { toast } from "../ui/use-toast";
+import { useUpdateBlogs } from "@/actions/get-blogs";
 
 const endPoint = process.env.NEXT_PUBLIC_API  + '/blogs/blog';
 const openaiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
@@ -31,7 +31,7 @@ interface InputsProps {
 }
 
 const CreateBlogModal = () => {
-    const {updateBlogs} = useUpdateData();
+    const {updateBlogs} = useUpdateBlogs();
     const {user} = useUser();
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
@@ -54,15 +54,16 @@ const CreateBlogModal = () => {
 
     useEffect(() => {
         setValue("description", blogDescription)
-    },[blogDescription])
+    },[blogDescription, setValue])
 
     useEffect(() => {
-        if(watch('title') === '') {
-            setGenerateButton(e => ({...e, disabled: true}))
+        const title = watch('title');
+        if (title === '') {
+            setGenerateButton(e => ({...e, disabled: true}));
         } else {
-            setGenerateButton(e => ({...e, disabled: false}))
+            setGenerateButton(e => ({...e, disabled: false}));
         }
-    },[watch('title'), useForm])
+    }, [watch, watch('title')]);
 
     const handleGenerateBlog = async () => {
         setGenerateButton(e => ({...e, loading: true}))

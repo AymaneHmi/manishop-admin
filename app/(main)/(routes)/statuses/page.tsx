@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
 import Statuses from "./Statuses";
+import getStatuses from "@/actions/get-statuses";
 
-const statusesPage = () => {
+const StatusesPage = () => {
     const {onOpen} = useModal()
-    const {statuses} = useData()!;
+    const {statuses} = getStatuses();
 
     const handleCreateStatus = () => {
         onOpen("createStatus")
@@ -31,4 +31,4 @@ const statusesPage = () => {
     )
 }
 
-export default statusesPage;
+export default StatusesPage;

@@ -42,7 +42,7 @@ export default function RootLayout({
     <section className="relative flex">
       <ModalProvider />
       <SideBar />
-      <section className={`ml-0 ${sideBar.isOpen ? 'lg:ml-[20%]' : 'lg:ml-16'} w-full transition-all duration-150`}>
+      <section className={`ml-0 ${sideBar.isOpen ? 'lg:ml-64' : 'lg:ml-20'} w-full transition-all duration-150`}>
         <Header />
         <section className="py-2 px-6">
           {children}

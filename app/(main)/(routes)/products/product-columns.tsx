@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
  
 import CellAction from "./product-cell-action";
 import { Eye, EyeOff, LockIcon } from "lucide-react";
-import { useMinimize } from "@/hooks/use-minimize";
+import { getMinimizeText } from "@/hooks/use-minimize";
 import { product } from "@/lib/types";
 import MediaReader from "@/components/media-reader";
 

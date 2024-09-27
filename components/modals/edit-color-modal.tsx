@@ -6,9 +6,9 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
+import { useUpdateColors } from "@/actions/get-colors";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/colors/color';
 
@@ -19,7 +19,7 @@ interface InputsProps {
 }
 
 const EditColorModal = () => {
-    const {updateColors} = useUpdateData();
+    const {updateColors} = useUpdateColors();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editColor"
@@ -36,7 +36,7 @@ const EditColorModal = () => {
         setValue("id", data?.color?.id!)
         setValue("name", data?.color?.name!)
         setValue("value", data?.color?.value!)
-    },[data?.color])
+    },[data?.color, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         console.log(data)

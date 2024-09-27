@@ -15,7 +15,7 @@ export type category = {
     name: string;
     description: string;
     image: string[];
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type subcategory = {
@@ -23,21 +23,21 @@ export type subcategory = {
     name: string;
     category_id: number;
     category: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type size = {
     id: number;
     name: string;
     value: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type color = {
     id: number;
     name: string;
     value: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type product = {
@@ -53,7 +53,7 @@ export type product = {
     sizes: size[];
     colors: color[];
     available: boolean;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type discount = {
@@ -63,7 +63,7 @@ export type discount = {
     productsIds: number[];
     startDate: Date;
     endDate: Date;
-    createdAt: Date
+    createdAt: string
 }
 
 export type promocode = {
@@ -72,14 +72,14 @@ export type promocode = {
     discountAmount: number;
     startDate: Date;
     endDate: Date;
-    createdAt: Date
+    createdAt: string
 }
 
 export type status = {
     id: number;
     name: string;
     value: string;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type order = {
@@ -92,7 +92,7 @@ export type order = {
     totalPrice: number;
     status: status;
     isPaid: boolean;
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type blog = {
@@ -103,7 +103,7 @@ export type blog = {
     author: string;
     slug: string;
     tags: string[];
-    createdAt: Date;
+    createdAt: string;
 }
 
 export type storeInfo = {

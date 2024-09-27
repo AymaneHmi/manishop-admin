@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import Products from "./Products";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
+import getProducts from "@/actions/get-products";
 
-const productsPage = () => {
+const ProductsPage = () => {
     const {onOpen} = useModal();
-    const {products} = useData();
+    const {products} = getProducts();
 
     const handleCreateProduct = () => {
         onOpen("createProduct");
@@ -31,4 +31,4 @@ const productsPage = () => {
     )
 }
 
-export default productsPage;
+export default ProductsPage;

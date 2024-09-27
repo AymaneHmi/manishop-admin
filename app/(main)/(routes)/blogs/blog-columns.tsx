@@ -4,7 +4,6 @@ import { blog } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table"
 
 import CellAction from "./blog-cell-action";
-import { useMinimize } from "@/hooks/use-minimize";
 
 export const columns: ColumnDef<blog>[] = [
   {
@@ -17,7 +16,7 @@ export const columns: ColumnDef<blog>[] = [
       cell: ({row}) => {
         const blog = row.original;
         return (
-          <div className="text-xs" dangerouslySetInnerHTML={{ __html: useMinimize(blog.description, 100) }}></div>
+          <div className="text-xs line-clamp-2" dangerouslySetInnerHTML={{ __html: blog.description }}></div>
         )
       }
   },

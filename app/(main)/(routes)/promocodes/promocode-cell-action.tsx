@@ -13,7 +13,7 @@ import {
 
 import { promocode } from "@/lib/types";
 import useModal from "@/hooks/use-modal";
-import { useUpdateData } from "@/providers/data";
+import { useUpdatePromocodes } from "@/actions/get-promocodes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/promocodes/promocode';
 
@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const {onOpen} = useModal();
-    const {updatePromocodes} = useUpdateData();
+    const {updatePromocodes} = useUpdatePromocodes();
 
     return (
         <>

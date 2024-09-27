@@ -101,17 +101,17 @@ const SidebarLinks = () => {
         <div className="flex flex-col w-full gap-y-2 h-[70vh] overflow-y-auto">
             {links.map((link, i) => (
                 link.group ? 
-                    <div className="group">
+                    <div key={i} className="group">
                         <Button 
                             key={i}
                             variant={"outline"}
                             className="p-2 items-start justify-between w-full"
                         >
                             <div className="flex flex-row gap-2 items-center">
-                                <link.icon size={20} />
+                                <link.icon size={18} />
                                 {isOpen && link.label}
                             </div>
-                            {isOpen && <ArrowDown size={20} />}
+                            {isOpen && <ArrowDown size={16} />}
                         </Button>
                         <div className="flex flex-col gap-2 max-h-0 group-hover:max-h-[300px] overflow-hidden group-hover:mt-2 w-11/12 ml-auto transition-all duration-300">
                             {link.links?.map((link, i) => (
@@ -124,7 +124,7 @@ const SidebarLinks = () => {
                                         variant={path === link.href ? "default" : "outline"}
                                         className="p-2 flex justify-start gap-2 w-full"
                                     >
-                                        <link.icon size={20} />
+                                        <link.icon size={18} />
                                         {isOpen && link.label}
                                     </Button>
                                 </Link>
@@ -141,7 +141,7 @@ const SidebarLinks = () => {
                         variant={path === link.href ? "default" : "outline"}
                         className="p-2 flex justify-start gap-2 w-full"
                     >
-                        <link.icon size={20} />
+                        <link.icon size={18} />
                         {isOpen && link.label}
                     </Button>
                 </Link>

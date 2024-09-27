@@ -1,15 +1,17 @@
 'use client';
 
-import { useData } from "@/providers/data";
 import { columns } from "./promocode-columns";
 import { DataTable } from "@/components/data-table";
 import Loader from "@/components/ui/loader";
 import EmptyState from "@/components/EmptyState";
+import { promocode } from "@/lib/types";
+import getPromocodes from "@/actions/get-promocodes";
 
 const Promocodes = () => {
-    const {promocodes, isLoadingPromocodes, errorPromocodes} = useData();
+    
+    const {promocodes, isLoading, error} = getPromocodes();
 
-    if(isLoadingPromocodes) {
+    if(isLoading) {
         return <div className="w-full flex flex-col items-center my-4">
             <div className="w-14 h-14 flex items-center justify-center rounded shadow-lg rounded-full">
                 <Loader isLoading size={30} />
@@ -17,17 +19,17 @@ const Promocodes = () => {
         </div>
     }
 
-    if(errorPromocodes) {
+    if(error) {
         return <div className="w-full flex flex-col items-center my-4">
             <EmptyState
                 title="Ups!! Something Went wrong!"
-                subtitle={`Error Accured:` + errorPromocodes}
+                subtitle={`Error Accured:` + error}
             />
         </div>
     }
     return (
         <>
-            <DataTable filterLabel="name" columns={columns} data={promocodes} />
+            <DataTable filterLabel="name" columns={columns} data={promocodes as promocode[]} />
         </>
     )
 }

@@ -1,3 +1,4 @@
+"use client"
 import { useEffect } from "react";
 
 import {format} from 'date-fns';
@@ -24,26 +25,26 @@ export function useFetch<T extends Data>({api, keyQuery, reloadData}: useFetchPr
             },
         });
         const data = await res.json();
-        return data;
+        return Array.isArray(data) ? data : [];
     }
     
-    const { data: resData, isLoading, error, refetch } = useQuery<T[] | []>({
-        queryKey: keyQuery,
+    const { data: resData, isLoading, error, refetch } = useQuery<T[]>({
+        queryKey: [keyQuery],
         queryFn: () => fetchData(),
-      });
+    });
 
-    const data = resData?.map((item: T) => {
-        const formattedCreatedAt = format(new Date(item.createdAt), "PPP");
-        return {
+    const data = Array.isArray(resData) 
+        ? resData.map((item: T) => ({
             ...item,
-            createdAt: formattedCreatedAt,
-        }
-    }) || [];
+            createdAt: format(new Date(item.createdAt), "PPP"),
+          }))
+        : [];
 
     useEffect(() => {
-        refetch();
-    },[reloadData])
-
+        if (reloadData) {
+            refetch();
+        }
+    }, [reloadData, refetch]);
 
     return {data, isLoading, error};
 }

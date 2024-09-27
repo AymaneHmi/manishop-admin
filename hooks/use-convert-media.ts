@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const toBase64 = (file: File) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -6,13 +8,21 @@ const toBase64 = (file: File) =>
     reader.onerror = (error) => reject(error);
   });
 
-export const useConvertMedia = async (media: FileList | null): Promise<any[]> => {
-  if (media) {
-    const mediaArray = Array.from(media);
-    const fileDataPromises = mediaArray.map((file: File) => toBase64(file));
-    const fileDataList = await Promise.all(fileDataPromises);
-    return fileDataList;
-  } else {
-    return [];
-  }
+export const convertMedia = (media: FileList | null) => {
+  const [fileDataList, setFileDataList] = useState<any[]>([]);
+  
+  useEffect(() => {
+    if(!media) return;
+
+    const convertMedia = async () => {
+      const mediaArray = Array.from(media);
+      const fileDataPromises = mediaArray.map((file: File) => toBase64(file));
+      const fileDataList = await Promise.all(fileDataPromises);
+      setFileDataList(fileDataList);
+    }
+
+    convertMedia();
+  },[media])
+
+  return fileDataList;
 };

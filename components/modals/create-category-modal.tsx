@@ -7,9 +7,9 @@ import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import UploadImage from "../upload-media";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
+import { useUpdateCategories } from "@/actions/get-categories";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/categories/category';
 
@@ -20,7 +20,7 @@ interface InputsProps {
 }
 
 const CreateCategoryModal = () => {
-    const {updateCategories} = useUpdateData();
+    const {updateCategories} = useUpdateCategories();
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "createCategory"

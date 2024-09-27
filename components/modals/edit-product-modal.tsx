@@ -9,7 +9,6 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import UploadImage from "../upload-media";
-import { useData, useUpdateData } from "@/providers/data";
 import axios from "axios";
 import dynamic from "next/dynamic";
 
@@ -21,6 +20,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import { useUpdateProducts } from "@/actions/get-products";
+import getCategories from "@/actions/get-categories";
+import getSubcategories from "@/actions/get-subcategories";
+import getSizes from "@/actions/get-sizes";
+import getColors from "@/actions/get-colors";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/products/product';
 
@@ -42,13 +46,17 @@ interface InputsProps {
 }
 
 const EditProductModal = () => {
-    const {categories, subcategories, colors, sizes} = useData();
-    const {updateProducts} = useUpdateData();
+    const {updateProducts} = useUpdateProducts();
+    const {categories} = getCategories();
+    const {subcategories} = getSubcategories();
+    const {sizes} = getSizes();
+    const {colors} = getColors();
+    
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editProduct"
     const [productDescription , setProductDescription] = useState('');
-    const [filteredSubcategories, setFilteredsubcategories] = useState<subcategory[] | []>([])
+    const [filteredSubcategories, setFilteredSubcategories] = useState<subcategory[] | []>([])
 
     const [selectedSizesIds, setSelectedSizesIds] = useState<number[] | []>([]);
     const [selectedColorsIds, setSelectedColorsIds] = useState<number[] | []>([]);
@@ -75,29 +83,30 @@ const EditProductModal = () => {
         setProductDescription(data?.product?.description!)
         setSelectedSizesIds(data?.product?.sizes?.map(size => size.id) || [])
         setSelectedColorsIds(data?.product?.colors?.map(color => color.id) || [])
-    },[data?.product]);
+    },[data?.product, setValue]);
 
     useEffect(() => {
-        const filterSubcategories = () => {
-            return subcategories.filter(subcategory => {
-                return subcategory.category_id.toString() == watch("categoryId")
-            })
+        const categoryId = watch("categoryId");
+        if (categoryId) {
+            const filtered = subcategories?.filter(subcategory => {
+                return subcategory.category_id.toString() === categoryId;
+            }) || [];
+            setFilteredSubcategories(filtered);
         }
-        setFilteredsubcategories(filterSubcategories)
-    },[watch("categoryId")])
+    }, [watch, watch("categoryId"), subcategories]);
 
 
     useEffect(() => {
         setValue("description", productDescription)
-    },[productDescription])
+    },[productDescription, setValue])
 
     useEffect(() => {
         setValue("sizesIds", selectedSizesIds);
-    },[selectedSizesIds])
+    },[selectedSizesIds, setValue])
 
     useEffect(() => {
         setValue("colorsIds", selectedColorsIds);
-    },[selectedColorsIds])
+    },[selectedColorsIds, setValue])
 
     const handleToggleSize = (sizeId: number) => {
         const isSizeIdExist = selectedSizesIds.some(selectedSizeId => selectedSizeId == sizeId);
@@ -183,7 +192,7 @@ const EditProductModal = () => {
             value={productDescription} 
             onChange={setProductDescription} 
         />
-        <Label htmlFor="tags">Tags (put camma "," between each tag)</Label>
+        <Label htmlFor="tags">Tags (put camma &quot;,&quot; between each tag)</Label>
         <Input 
             required
             type="text" 
@@ -200,7 +209,7 @@ const EditProductModal = () => {
                 <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-                {categories.map(category => (
+                {categories?.map(category => (
                     <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
                 ))}
             </SelectContent>

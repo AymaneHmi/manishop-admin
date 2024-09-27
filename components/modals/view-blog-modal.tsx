@@ -6,23 +6,18 @@ import { Label } from "../ui/label";
 
 import Image from "next/image";
 import { Badge } from "../ui/badge";
-import { useEffect } from "react";
 
 const ViewBlogModal = () => {
     const {isOpen, onOpen, onClose, type, data} = useModal();
     const isOpenModal = isOpen && type === "viewBlog"
-
-    useEffect(() => {
-        console.log(data?.blog)
-    },[data?.blog])
 
     const body = (<>
         <Label>Media</Label>
         <div className="flex flex-wrap gap-2">
             <div className="h-32 w-44 rounded relative overflow-hidden">
                 <Image
-                    src={data?.blog?.image!}
-                    alt={data?.product?.title!}
+                    src={data?.blog?.image?.[0] as string}
+                    alt={data?.product?.title as string}
                     fill
                     className="object-cover"
                     />

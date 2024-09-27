@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import Loader from "./ui/loader";
 import MediaReader from "./media-reader";
-import { useConvertMedia } from "@/hooks/use-convert-media";
+import { convertMedia } from "@/hooks/use-convert-media";
 
 interface UploadImageProps extends React.InputHTMLAttributes<HTMLInputElement> {
     onUpload: (e: string[]) => void;
@@ -39,15 +39,15 @@ const UploadMedia: React.FC<UploadImageProps> = ({
 
     useEffect(() => {
         onUpload?.(media)
-    },[media])
+    },[media, onUpload])
 
     useEffect(() => {
         handleCheckedImages?.(checkedImages)
-    },[checkedImages])
+    },[checkedImages, handleCheckedImages])
 
-    const handleUploadMedia = async (e: ChangeEvent<HTMLInputElement>) => {
+    const handleUploadMedia = (e: ChangeEvent<HTMLInputElement>) => {
         setIsLoading(true);
-        const mediaDataList = await useConvertMedia(e.target.files)
+        const mediaDataList = convertMedia(e.target.files)
         setIsLoading(false);
         setMedia(mediaDataList);
     }
@@ -101,7 +101,7 @@ const UploadMedia: React.FC<UploadImageProps> = ({
                     )) 
                 }
                 {uploadMedia?.map((file, index) => (
-                    <div className="h-20 aspect-[4/3] rounded opacity-70 relative">
+                    <div key={index} className="h-20 aspect-[4/3] rounded opacity-70 relative">
                         <MediaReader
                             key={index}
                             media={file}

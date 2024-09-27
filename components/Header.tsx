@@ -17,6 +17,7 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from "./u
 import SidebarHeader from "./sidebar/SidebarHeader";
 import SidebarLinks from "./sidebar/SidebarLinks";
 import SidebarUser from "./sidebar/SideBarUser";
+import SideBarNavigation from "./sidebar/sidebar-navigation";
 
 const Header = () => {
     const sideBar = useSideBar();
@@ -28,7 +29,7 @@ const Header = () => {
     }
     const {user} = useUser();
     return (
-        <section className="w-full bg-white border-b py-4 px-6 text-black shadow-lg flex flex-row items-center justify-between">
+        <section className="w-full bg-white border-b py-4 px-6 text-black flex flex-row items-center justify-between">
 
             <div className="lg:hidden">
                 <Sheet>
@@ -37,12 +38,8 @@ const Header = () => {
                             onClick={sideBar.onOpen}
                         />
                     </SheetTrigger>
-                    <SheetContent side={"left"}>
-                        <SheetHeader><SidebarHeader /></SheetHeader>
-                        <div className="mt-4">
-                            <SidebarLinks />
-                        </div>
-                        <SheetFooter><SidebarUser /></SheetFooter>
+                    <SheetContent side={"left"} className="flex flex-col h-screen">
+                        <SideBarNavigation isExpended />
                     </SheetContent>
                 </Sheet>
             </div>

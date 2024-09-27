@@ -1,13 +1,10 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { PT_Sans } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import ChildrenLayout from './children';
 import { ToastProvider } from '@/components/ui/toast';
 
-const inter = PT_Sans({
-  weight: "400",
-  subsets: ["cyrillic"],
-});
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Manishop Admin',

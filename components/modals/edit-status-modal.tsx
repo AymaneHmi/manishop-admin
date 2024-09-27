@@ -6,9 +6,9 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
+import { useUpdateStatuses } from "@/actions/get-statuses";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/statuses/status';
 
@@ -19,7 +19,7 @@ interface InputsProps {
 }
 
 const EditStatusModal = () => {
-    const {updateStatuses} = useUpdateData();
+    const {updateStatuses} = useUpdateStatuses();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editStatus"
@@ -36,7 +36,7 @@ const EditStatusModal = () => {
         setValue("id", data?.status?.id!)
         setValue("name", data?.status?.name!)
         setValue("value", data?.status?.value!)
-    },[data?.status])
+    },[data?.status, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         console.log(data)

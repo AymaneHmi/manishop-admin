@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
 import Discounts from "./Discounts";
+import getDiscounts from "@/actions/get-discounts";
 
-const discountsPage = () => {
+const DiscountsPage = () => {
     const {onOpen} = useModal()
-    const {discounts} = useData();
+    const {discounts} = getDiscounts();
 
     const handleCreateDiscount = () => {
         onOpen("createDiscount")
@@ -31,4 +31,4 @@ const discountsPage = () => {
     )
 }
 
-export default discountsPage;
+export default DiscountsPage;

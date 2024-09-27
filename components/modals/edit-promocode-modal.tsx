@@ -6,7 +6,6 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 import InputError from "../ui/input-error";
@@ -17,6 +16,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { codePattern } from "@/hooks/patterns";
+import { useUpdatePromocodes } from "@/actions/get-promocodes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/promocodes/promocode';
 
@@ -29,7 +29,7 @@ interface InputsProps {
 }
 
 const EditPromocodeModal = () => {
-    const {updatePromocodes} = useUpdateData();
+    const {updatePromocodes} = useUpdatePromocodes();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editPromocode"
@@ -55,7 +55,7 @@ const EditPromocodeModal = () => {
         setValue("discountAmount", data?.promocode?.discountAmount!)
         setValue("startDate", data?.promocode?.startDate!)
         setValue("endDate", data?.promocode?.endDate!)
-    },[data?.promocode])
+    },[data?.promocode, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         const resData = {

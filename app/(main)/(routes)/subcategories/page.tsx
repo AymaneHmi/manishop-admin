@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import Subcategories from "./Subcategories";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
+import getSubcategories from "@/actions/get-subcategories";
 
-const subcategoriesPage = () => {
+const SubcategoriesPage = () => {
     const {onOpen} = useModal()
-    const {subcategories} = useData();
+    const {subcategories} = getSubcategories();
 
     const handleCreateSubcategory = () => {
         onOpen("createSubcategory")
@@ -31,4 +31,4 @@ const subcategoriesPage = () => {
     )
 }
 
-export default subcategoriesPage;
+export default SubcategoriesPage;

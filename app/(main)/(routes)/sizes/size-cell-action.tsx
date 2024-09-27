@@ -13,7 +13,7 @@ import {
 
 import { size } from "@/lib/types";
 import useModal from "@/hooks/use-modal";
-import { useUpdateData } from "@/providers/data";
+import { useUpdateSizes } from "@/actions/get-sizes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/sizes/size';
 
@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const {onOpen} = useModal();
-    const {updateSizes} = useUpdateData();
+    const {updateSizes} = useUpdateSizes();
 
     return (
         <>

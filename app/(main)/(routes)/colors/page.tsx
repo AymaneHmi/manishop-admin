@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
 import Colors from "./Colors";
+import getColors from "@/actions/get-colors";
 
-const colorsPage = () => {
+const ColorsPage = () => {
     const {onOpen} = useModal()
-    const {colors} = useData();
+    const {colors} = getColors();
 
     const handleCreateColor = () => {
         onOpen("createColor")
@@ -31,4 +31,4 @@ const colorsPage = () => {
     )
 }
 
-export default colorsPage;
+export default ColorsPage;

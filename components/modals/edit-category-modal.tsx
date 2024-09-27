@@ -6,10 +6,10 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 import UploadMedia from "../upload-media";
+import { useUpdateCategories } from "@/actions/get-categories";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/categories/category';
 
@@ -23,7 +23,7 @@ interface InputsProps {
 }
 
 const EditCategoryModal = () => {
-    const {updateCategories} = useUpdateData();
+    const {updateCategories} = useUpdateCategories();
     const {isOpen, onClose, type, data} = useModal();
 
     const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const EditCategoryModal = () => {
         setValue("title", data?.category?.name!);
         setValue("description", data?.category?.description!);
         setValue("existMedia", data?.category?.image!);
-    },[data?.category])
+    },[data?.category, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         setLoading(true)

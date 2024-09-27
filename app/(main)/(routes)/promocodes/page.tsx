@@ -4,12 +4,12 @@ import Heading from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
 import Promocodes from "./Promocodes";
+import getPromocodes from "@/actions/get-promocodes";
 
-const promocodesPage = () => {
+const PromocodesPage = () => {
     const {onOpen} = useModal()
-    const {promocodes} = useData()!;
+    const {promocodes} = getPromocodes();
 
     const handleCreatePromocode = () => {
         onOpen("createPromocode")
@@ -31,4 +31,4 @@ const promocodesPage = () => {
     )
 }
 
-export default promocodesPage;
+export default PromocodesPage;

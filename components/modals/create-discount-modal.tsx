@@ -6,7 +6,6 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useData, useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 import InputError from "../ui/input-error";
@@ -25,9 +24,11 @@ import {
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useMinimize } from "@/hooks/use-minimize";
+import { getMinimizeText } from "@/hooks/use-minimize";
 import { product } from "@/lib/types";
 import { codePattern } from "@/hooks/patterns";
+import getProducts from "@/actions/get-products";
+import { useUpdateDiscounts } from "@/actions/get-discounts";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/discounts/discount';
 
@@ -40,8 +41,8 @@ interface InputsProps {
 }
 
 const CreateDiscountModal = () => {
-    const {updateDiscounts} = useUpdateData();
-    const {products} = useData();
+    const {updateDiscounts} = useUpdateDiscounts();
+    const {products} = getProducts();
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "createDiscount"
@@ -55,11 +56,6 @@ const CreateDiscountModal = () => {
         return t;
     };
 
-    useEffect(() => {
-        const productsIds = discountProducts?.map(product => (product.id))
-        setValue("productsIds", productsIds)
-    },[discountProducts])
-
     const {
         register,
         handleSubmit,
@@ -68,6 +64,11 @@ const CreateDiscountModal = () => {
         setValue,
         watch
     } = useForm<InputsProps>()
+
+    useEffect(() => {
+        const productsIds = discountProducts?.map(product => (product.id))
+        setValue("productsIds", productsIds)
+    },[discountProducts, setValue])
 
     const handleDiscountProduct = (product: product) => {
         setDiscountProducts(existProducts => {
@@ -126,7 +127,7 @@ const CreateDiscountModal = () => {
                 disabled={products?.length === discountProducts.length}
                 type="button"
                 variant={"outline"}
-                onClick={() => setDiscountProducts(products)}
+                onClick={() => setDiscountProducts(products as product[])}
                 className="w-full md:w-1/3"
             >
                 Add All Products
@@ -146,7 +147,7 @@ const CreateDiscountModal = () => {
                                         height={50}
                                         className="aspect-square object-cover rounded"
                                     />
-                                    <h2 className="font-medium">{useMinimize(product.title, 30)}</h2>
+                                    <h2 className="font-medium">{getMinimizeText(product.title, 30)}</h2>
                                 </div>
                             </CommandItem>
                         ))}
@@ -166,7 +167,7 @@ const CreateDiscountModal = () => {
                             height={50}
                             className="aspect-square object-cover rounded"
                         />
-                        <h2 className="font-medium">{useMinimize(product.title, 30)}</h2>
+                        <h2 className="font-medium">{getMinimizeText(product.title, 30)}</h2>
                     </div>
                     <h3>{product.price}</h3>
                     <X size={20} className="cursor-pointer" onClick={() => setDiscountProducts(existProducts => existProducts?.filter(existProduct => (

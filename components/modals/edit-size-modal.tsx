@@ -6,9 +6,9 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
+import { useUpdateSizes } from "@/actions/get-sizes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/sizes/size';
 
@@ -19,7 +19,7 @@ interface InputsProps {
 }
 
 const EditSizeModal = () => {
-    const {updateSizes} = useUpdateData();
+    const {updateSizes} = useUpdateSizes();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editSize"
@@ -36,7 +36,7 @@ const EditSizeModal = () => {
         setValue("id", data?.size?.id!)
         setValue("name", data?.size?.name!)
         setValue("value", data?.size?.value!)
-    },[data?.size])
+    },[data?.size, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         setLoading(true)

@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import Categories from "./Categories";
 import { Separator } from "@/components/ui/separator";
 import useModal from "@/hooks/use-modal";
-import { useData } from "@/providers/data";
+import getCategories from "@/actions/get-categories";
 
-const categoriesPage = () => {
+const CategoriesPage = () => {
     const {onOpen} = useModal();
-    const {categories} = useData();
+    
+    const {categories} = getCategories();
 
     const handleCreateCategory = () => {
         onOpen("createCategory");
@@ -31,4 +32,4 @@ const categoriesPage = () => {
     )
 }
 
-export default categoriesPage;
+export default CategoriesPage;

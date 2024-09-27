@@ -7,7 +7,7 @@ import Overview from "@/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CreditCard, DollarSign, Package } from "lucide-react";
+import { BarChart3, CreditCard, DollarSign, Package } from "lucide-react";
 
 export default function DashBoard() {
   const {data:storeInfo, isLoading, error} = getStoreInfo();
@@ -59,6 +59,7 @@ export default function DashBoard() {
         <Card className="lg:col-span-3">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle >Overview</CardTitle>
+            <BarChart3 />
           </CardHeader>
           <CardContent className="overflow-auto">
             <Overview data={storeInfo?.graphData} year={2024} loading={isLoading} />

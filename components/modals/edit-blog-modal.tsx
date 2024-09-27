@@ -6,7 +6,6 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 
 import dynamic from "next/dynamic";
@@ -17,6 +16,7 @@ import { Sparkles } from "lucide-react";
 import Loader from "../ui/loader";
 import { toast } from "../ui/use-toast";
 import UploadMedia from "../upload-media";
+import { useUpdateBlogs } from "@/actions/get-blogs";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/blogs/blog';
 const openaiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
@@ -32,7 +32,7 @@ interface InputsProps {
 }
 
 const EditBlogModal = () => {
-    const {updateBlogs} = useUpdateData();
+    const {updateBlogs} = useUpdateBlogs();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editBlog"
@@ -61,19 +61,20 @@ const EditBlogModal = () => {
 
         setValue('description', data?.blog?.description!);
         setBlogDescription(data?.blog?.description!)
-    },[data?.blog])
+    },[data?.blog, setValue])
 
     useEffect(() => {
         setValue("description", blogDescription)
-    },[blogDescription])
+    },[blogDescription, setValue])
 
     useEffect(() => {
-        if(watch('title') === '') {
+        const title = watch("title");
+        if(title === '') {
             setGenerateButton(e => ({...e, disabled: true}))
         } else {
             setGenerateButton(e => ({...e, disabled: false}))
         }
-    },[watch('title'), useForm])
+    },[watch, watch('title')])
 
     const handleGenerateBlog = async () => {
         setGenerateButton(e => ({...e, loading: true}))

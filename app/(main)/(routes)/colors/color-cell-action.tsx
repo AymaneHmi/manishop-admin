@@ -13,7 +13,7 @@ import {
 
 import { color } from "@/lib/types";
 import useModal from "@/hooks/use-modal";
-import { useUpdateData } from "@/providers/data";
+import { useUpdateColors } from "@/actions/get-colors";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/colors/color';
 
@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({
     data
 }) => {
     const {onOpen} = useModal();
-    const {updateColors} = useUpdateData();
+    const {updateColors} = useUpdateColors();
 
     return (
         <>

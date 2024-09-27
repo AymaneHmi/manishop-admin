@@ -42,7 +42,7 @@ const Gallery: React.FC<galleryProps> = ({
                 <div className="absolute opacity-0 group-hover:opacity-100 px-4 flex flex-row justify-between w-full top-1/2 translate -translate-y-1/2 transition-all duration-150">
                     <Button 
                         onClick={goToPrevious}
-                        size={"icon"}
+                        size={"sm"}
                         type="button"
                         className="p-1"
                         >
@@ -50,7 +50,7 @@ const Gallery: React.FC<galleryProps> = ({
                     </Button>
                     <Button 
                         onClick={goToNext}
-                        size={"icon"}
+                        size={"sm"}
                         type="button"
                         className="p-1"
                     >

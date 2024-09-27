@@ -6,10 +6,11 @@ import Modal from "../Modal";
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useData, useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { toast } from "../ui/use-toast";
+import { useUpdateSubcategories } from "@/actions/get-subcategories";
+import getCategories from "@/actions/get-categories";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/subcategories/subcategory';
 
@@ -20,8 +21,8 @@ interface InputsProps {
 }
 
 const EditSubcategoryModal = () => {
-    const {categories} = useData();
-    const {updateSubcategories} = useUpdateData();
+    const {updateSubcategories} = useUpdateSubcategories();
+    const {categories} = getCategories();
     const {isOpen, onClose, type, data} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "editSubcategory"
@@ -39,7 +40,7 @@ const EditSubcategoryModal = () => {
         setValue("id", data?.subcategory?.id!)
         setValue("title", data?.subcategory?.name!)
         setValue("categoryId", data?.subcategory?.category_id?.toString()!)
-    },[data?.subcategory])
+    },[data?.subcategory, setValue])
 
     const onSubmit: SubmitHandler<InputsProps> = async (data) => {
         setLoading(true)
@@ -82,7 +83,7 @@ const EditSubcategoryModal = () => {
                 <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-                {categories.map(category => (
+                {categories?.map(category => (
                     <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
                 ))}
             </SelectContent>

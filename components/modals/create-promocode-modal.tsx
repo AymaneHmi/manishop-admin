@@ -6,7 +6,6 @@ import Modal from "../Modal";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useUpdateData } from "@/providers/data";
 import axios from "axios";
 import { toast } from "../ui/use-toast";
 import InputError from "../ui/input-error";
@@ -17,6 +16,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
 import { codePattern } from "@/hooks/patterns";
+import { useUpdatePromocodes } from "@/actions/get-promocodes";
 
 const endPoint = process.env.NEXT_PUBLIC_API + '/promocodes/promocode';
 
@@ -28,7 +28,7 @@ interface InputsProps {
 }
 
 const CreatePromocodeModal = () => {
-    const {updatePromocodes} = useUpdateData();
+    const {updatePromocodes} = useUpdatePromocodes();
     const {isOpen, onClose, type} = useModal();
     const [loading, setLoading] = useState(false);
     const isOpenModal = isOpen && type === "createPromocode"
