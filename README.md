@@ -11,9 +11,9 @@ Key Features
 Track store's performance with ease
 -----------------------------------
 
-* View Total Revenue, Total Sales, and Product in Stock
+* View Total Revenue, Total Sales, and Products in Stock
   
-* An overview of Monthly Revenue and sales in in the year
+* An overview of Monthly Revenue and Monthly Sales in the year
 
 Organize products with precision
 --------------------------------
