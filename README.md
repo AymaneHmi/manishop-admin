@@ -1,4 +1,4 @@
-<img src="https://api.aymanehammi.com/media/admin%20manishop%20thumbnail.png" alt="manshop admin dashboard" />
+<img src="https://api.aymanehammi.com/media/admin%20dashboard%20thumbnail.png" alt="manshop admin dashboard" />
 
 E-Commerce Admin Dashboard Platform
 ----------------------------
